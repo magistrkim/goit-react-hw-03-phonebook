@@ -13,6 +13,20 @@ class Contacts extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    //     if (contacts?.length)
+    if (contacts && contacts.length) {
+      this.setState({ contacts });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts.length !== contacts.length) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
+
   removeContact = id => {
     this.setState(({ contacts }) => {
       const newContacts = contacts.filter(contact => contact.id !== id);
